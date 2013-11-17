@@ -1,0 +1,30 @@
+/ View to load the receipt after ajax call
+#receipt.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+    .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+        %h3#myModalLabel Receipt
+    .modal-body
+        %table.table.table-striped
+            %thead
+                %tr
+                    %th
+                    %th Item Name
+                    %th Price
+
+            %tbody
+                %tr{ ng:{repeat:"item in receipt.items"}}
+                    %td {{$index+1}}
+                    %td {{item.imported}} {{item.name}}
+                    %td {{item.price}}
+            %tfoot
+                %tr
+                    %th
+                    %th Sales tax
+                    %th {{receipt.total_tax}}
+                %tr
+                    %th
+                    %th Total
+                    %th {{receipt.total}}
+
+    .modal-footer
+        %button.btn{"aria-hidden" => "true", "data-dismiss" => "modal"} Close

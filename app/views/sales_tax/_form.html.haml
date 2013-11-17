@@ -1,0 +1,37 @@
+/ View to collect the items and send it to the rails server for computing
+=form_tag({action: :compute}, class:"form-inline well",id: "compute",method: "post",novalidate:true) do
+    %ng-form{name:"form"}
+        .row
+            .lead.pull-left Add your purchase items here
+            .progress.progress-striped.active.span2.pull-left{"ng-class"=>"loading"}
+                .bar{style:"width: 100%;"}
+            .clearfix
+            .alert.alert-danger{"ng-show"=>"submitted && !form.$valid"}
+                %strong Form has invalid or incomplete inputs
+
+        .row
+            %table.table
+                %thead
+                    %tr
+                        %th Imported
+                        %th Item Name
+                        %th Price
+                        %th
+                %tbody
+                    %tr{ ng:{repeat:"item in items"}}
+                        %td
+                            %label.checkbox
+                                %input{type: "checkbox",name:"item[{{item.id}}][imported]",value:"imported","ng-model"=>"muted[item.id]"}
+                                %span{"ng-class"=>"muted[item.id] ? '' : 'muted' "} Imported
+                        %td
+                            %input.input-large{placeholder: "Item Name", type: "text",name:"item[{{item.id}}][name]","ng-model"=>"item.name",required:""}
+                        %td
+                            %input.input-small{placeholder: "Price", type: "number",name:"item[{{item.id}}][price]",required:"","ng-model"=>"item.price"}
+                        %td
+                            .icon-remove-circle{"ng-click"=>"remove($index)",title:"Remove this item"}
+
+        .row
+            .form-actions
+                %button.btn.btn-info{type: "button" , "ng-click"=>"addItem()"} Add Item
+                %button.btn.btn-primary{type: "button","ng-click"=>"submitted=true;compute(form)" } Submit
+                %button.btn{type: "button","ng-click"=>"reset()" } Reset
